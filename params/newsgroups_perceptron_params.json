@@ -1,0 +1,13 @@
+{
+    "data_type": "newsgroups",
+    "model_type": "perceptron",
+    "num_epochs": 100,
+    "lr": 0.1,
+    "feature_type": "ngram",
+    "feature_config": {
+        "weighting": "binary",
+        "n": 1,
+        "min_count": 3,
+        "remove_stopwords": true
+    }
+}

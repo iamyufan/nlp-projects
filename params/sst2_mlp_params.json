@@ -1,0 +1,20 @@
+{
+    "data_type": "sst2",
+    "model_type": "mlp",
+    "num_epochs": 1,
+    "lr": 0.01,
+    "feature_type": "onehot",
+    "embedding_dim": 128,
+    "hidden_dim": 256,
+    "num_layers": 2,
+    "loss_fct": "cross_entropy",
+    "activation": "relu",
+    "optimizer": "adam",
+    "feature_config": {
+        "text_processor": "preprocess_basic",
+        "weighting": "binary",
+        "n": 1,
+        "min_count": 1,
+        "remove_stopwords": true
+    }
+}

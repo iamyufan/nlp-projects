@@ -1,0 +1,14 @@
+{
+    "data_type": "sst2",
+    "model_type": "perceptron",
+    "num_epochs": 100,
+    "lr": 0.1,
+    "feature_type": "important_ngram",
+    "feature_config": {
+        "weighting": "tf",
+        "ns": [1, 2, 3],
+        "min_counts": [2, 1, 1],
+        "fea_dims": [6000, 2000, 200],
+        "remove_stopwords": true
+    }
+}
