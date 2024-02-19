@@ -3,6 +3,8 @@ from typing import List, Any, Tuple
 from newsgroups import newsgroups_data_loader
 from sst2 import sst2_data_loader
 
+ROOT_DIR = "nlp-projects/"
+
 
 def save_results(predictions: List[Any], results_path: str) -> None:
     """Saves the predictions to a file.
@@ -14,7 +16,7 @@ def save_results(predictions: List[Any], results_path: str) -> None:
     # TODO: Implement saving of the results.
     # Save the predictions to a csv file.
     predictions = [str(prediction) for prediction in predictions]
-    with open(results_path, "w", encoding="utf-8") as file:
+    with open(ROOT_DIR + results_path, "w", encoding="utf-8") as file:
         file.write("id,label\n")
         for i, prediction in enumerate(predictions):
             file.write(str(i) + "," + prediction + "\n")
@@ -46,7 +48,9 @@ def compute_accuracy(
     return accuracy
 
 
-def evaluate(model: Any, data: List[Tuple[Any, Any]], results_path: str) -> float:
+def evaluate(
+    model: Any, data: List[Tuple[Any, Any]], results_path: str, device
+) -> float:
     """Evaluates a dataset given the model.
 
     Inputs:
@@ -56,7 +60,9 @@ def evaluate(model: Any, data: List[Tuple[Any, Any]], results_path: str) -> floa
             test data, your label can be some null value.
         results_path (str): A filename where you will save the predictions.
     """
-    predictions = [model.predict(example[0], evaluate=True) for example in data]
+    predictions = [
+        model.predict(example[0].to(device), evaluate=True) for example in data
+    ]
     save_results(predictions, results_path)
 
     return compute_accuracy([example[1] for example in data], predictions, model)
@@ -90,11 +96,11 @@ def load_data(
     if model_type == "mlp":
         (train_data, val_data, dev_data, test_data), (label_to_index, vocab_size) = (
             data_loader(
-                "data/" + data_type + "/train/train_data.csv",
-                "data/" + data_type + "/train/train_labels.csv",
-                "data/" + data_type + "/dev/dev_data.csv",
-                "data/" + data_type + "/dev/dev_labels.csv",
-                "data/" + data_type + "/test/test_data.csv",
+                ROOT_DIR + "data/" + data_type + "/train/train_data.csv",
+                ROOT_DIR + "data/" + data_type + "/train/train_labels.csv",
+                ROOT_DIR + "data/" + data_type + "/dev/dev_data.csv",
+                ROOT_DIR + "data/" + data_type + "/dev/dev_labels.csv",
+                ROOT_DIR + "data/" + data_type + "/test/test_data.csv",
                 feature_type,
                 model_type,
                 feature_config=feature_config,

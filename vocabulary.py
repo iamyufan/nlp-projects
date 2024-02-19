@@ -2,12 +2,14 @@ from typing import List, Dict, Any
 
 from text_preprocessor import TextProcessor
 
+ROOT_DIR = "nlp-projects/"
+
 
 class Vocabulary:
     def __init__(self, feature_config: Dict[str, Any]):
         self.itos = {0: "<PAD>", 1: "<UNK>"}
         self.stoi = {"<PAD>": 0, "<UNK>": 1}
-        
+
         self.feature_config = feature_config
 
         # Set the N for N-grams
@@ -16,7 +18,7 @@ class Vocabulary:
         # Load the stopwords
         self.remove_stopwords = feature_config.get("remove_stopwords", True)
         if self.remove_stopwords:
-            with open("stopwords.txt", "r") as file:
+            with open(ROOT_DIR + "stopwords.txt", "r") as file:
                 stopwords = file.read().splitlines()
             self.stopwords = stopwords
 
@@ -54,7 +56,7 @@ class Vocabulary:
                 " ".join(tokens[i : i + self.n])
                 for i in range(len(tokens) - self.n + 1)
             ]
-        
+
         return tokens
 
     def build_vocabulary_from_data(self, data: List[str]):

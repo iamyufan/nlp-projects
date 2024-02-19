@@ -282,6 +282,7 @@ if __name__ == "__main__":
         model,
         dev_data,
         os.path.join("results", f"mlp_{data_type}_{feature_type}_dev_predictions.csv"),
+        device,
     )
 
     print(f"Dev Accuracy: {dev_accuracy:.4f}")
@@ -295,4 +296,5 @@ if __name__ == "__main__":
         model,
         test_data,
         os.path.join("results", f"mlp_{data_type}_{feature_type}_test_predictions.csv"),
+        device,
     )
