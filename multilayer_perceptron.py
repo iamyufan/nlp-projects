@@ -21,7 +21,7 @@ class MultilayerPerceptronModel(nn.Module):
         num_classes,
         vocab_size,
         embedding_dim=128,
-        hidden_dim=256,
+        hidden_dim=[256, 128],
         num_layers=2,
         activation="relu",
         label_to_index=None,
@@ -38,14 +38,14 @@ class MultilayerPerceptronModel(nn.Module):
         self.embeddings = nn.Embedding(vocab_size, embedding_dim)
 
         self.layers = nn.ModuleList()
-        self.layers.append(nn.Linear(embedding_dim, hidden_dim))
+        self.layers.append(nn.Linear(embedding_dim, hidden_dim[0]))
 
         # Dynamically add hidden layers based on num_layers
-        for _ in range(num_layers - 1):
-            self.layers.append(nn.Linear(hidden_dim, hidden_dim))
+        for i in range(1, num_layers):
+            self.layers.append(nn.Linear(hidden_dim[i - 1], hidden_dim[i]))
 
         # Final layer
-        self.layers.append(nn.Linear(hidden_dim, num_classes))
+        self.layers.append(nn.Linear(hidden_dim[-1], num_classes))
 
         # Activation function
         if activation == "relu":
@@ -216,7 +216,7 @@ if __name__ == "__main__":
     # model parameters
     model_config = params.get("model_config", {})
     embedding_dim = model_config.get("embedding_dim", 128)
-    hidden_dim = model_config.get("hidden_dim", 256)
+    hidden_dim = model_config.get("hidden_dim", [256, 128])
     num_layers = model_config.get("num_layers", 2)
     activation = model_config.get("activation", "relu")
 
